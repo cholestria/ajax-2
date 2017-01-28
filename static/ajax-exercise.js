@@ -14,24 +14,29 @@ $('#get-fortune-button').on('click', showFortune);
 
 
 // PART 2: SHOW WEATHER
-function getWeather(results) {
-    console.dir(results);
-    $('#weather-info').html("The weather will be " + results.forecast);
+
+function getWeather() {
+    $.get("melon-info", function (results) {
+        $('#weather-info').html(results.forecast);
+    });
+        var url = "/weather.json?zipcode=" + $("#zipcode-field").val();
 }
 
-function showWeather(evt) {
-    evt.preventDefault();
+$("#weather-form").on('submit', getWeather);
 
-    var zipInput = {
-        "zip": $("#zipcode-field").val(),
-    };
+// function replaceForecast(results) {
+//     $('#weather-info').html(results.forecast);
+// }
 
-    $.get("/weather.json",
-        zipInput,
-        getWeather);
-}
+// function showWeather(evt) {
+//     evt.preventDefault();
 
-$("#weather-form").on('submit', showWeather);
+//     var url = "/weather.json?zipcode=" + $("#zipcode-field").val();
+
+//     $.get(url, replaceForecast);
+// }
+
+// $("#weather-form").on('submit', showWeather);
 
 
 // PART 3: ORDER MELONS
@@ -48,13 +53,10 @@ function showOrderResults(results) {
 function orderMelons(evt) {
     evt.preventDefault();
 
-    var formInputs = {
-        "melon_type": $("#melon-type-field").val(),
-        "qty": $("#qty-field").val()
-    };
+    var formValues = $("#order-form").serialize();
 
     $.post("/order-melons.json",
-            formInputs,
+            formValues,
             showOrderResults);
 }
 
