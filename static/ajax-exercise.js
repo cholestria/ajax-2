@@ -15,28 +15,19 @@ $('#get-fortune-button').on('click', showFortune);
 
 // PART 2: SHOW WEATHER
 
-function getWeather() {
-    $.get("melon-info", function (results) {
+function getWeather(evt) {
+    evt.preventDefault();
+
+        var url = "/weather.json?zipcode=" + $("#zipcode-field").val(); 
+
+
+    $.get(url, function (results) {
         $('#weather-info').html(results.forecast);
     });
-        var url = "/weather.json?zipcode=" + $("#zipcode-field").val();
 }
 
 $("#weather-form").on('submit', getWeather);
 
-// function replaceForecast(results) {
-//     $('#weather-info').html(results.forecast);
-// }
-
-// function showWeather(evt) {
-//     evt.preventDefault();
-
-//     var url = "/weather.json?zipcode=" + $("#zipcode-field").val();
-
-//     $.get(url, replaceForecast);
-// }
-
-// $("#weather-form").on('submit', showWeather);
 
 
 // PART 3: ORDER MELONS
